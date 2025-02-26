@@ -1,0 +1,26 @@
+workflows:
+  ios-app:
+    name: iOS App Build
+    environment:
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          gem install cocoapods
+          pod install
+
+      - name: Build iOS app
+        script: |
+          xcodebuild -workspace FSTLPMobileApp.xcworkspace \
+          -scheme FSTLPMobileApp \
+          -sdk iphoneos \
+          -configuration Release \
+          -archivePath $HOME/build.xcarchive archive
+    artifacts:
+      - build/ios/iphoneos/*.app
+      - build/ios/iphoneos/*.ipa
+    publishing:
+      email:
+        recipients:
+          - colosocharles800@gmail.com
